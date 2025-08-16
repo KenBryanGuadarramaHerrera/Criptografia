@@ -1,7 +1,7 @@
 # Criptografia
 Criptografia 2026 - 1 
 
-#Integrantes
+# Integrantes
 
 - Del Razo Sánchez Diego Adrián
 
