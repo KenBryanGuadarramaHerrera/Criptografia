@@ -14,11 +14,11 @@ Para cifrar, convertimos cada letra en su posición numérica, sumamos la **llav
 cd C:\ruta\a\la\carpeta
 ```
 
-# Ejecutamos el programa con_
+## Ejecutamos el programa con
 
 python Caesar.py
 
-# El programa mostrara el menu:
+## El programa mostrara el menu:
 
 Seleccionamos 1 para cifrar o 2 para descifrar.
 Ingresamos el texto que queremos procesar.
