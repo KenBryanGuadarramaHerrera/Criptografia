@@ -1,8 +1,8 @@
-# Cifrado César con Ñ y Acentos
+# Caesar Cipher Algorithm
 
 Este programa implementa el **cifrado César**, un algoritmo clásico de sustitución que nos permite desplazar cada letra de un texto un número fijo de posiciones en el alfabeto. Nuestro alfabeto incluye **mayúsculas, minúsculas, la letra Ñ y las vocales acentuadas**.
 
-Para cifrar, convertimos cada letra en su posición numérica, sumamos la **llave** que elijamos (un número entre 1 y 31) y luego volvemos a convertirla en letra, manteniendo los caracteres no alfabéticos sin cambios. Para descifrar, simplemente restamos la llave usando el mismo cálculo circular para no salirnos del alfabeto.
+Para cifrar, convertimos cada letra en su posición numérica, sumamos la **llave o desplazamiento n** que elijamos (un número entre 1 y 31) y luego volvemos a convertirla en letra, manteniendo los caracteres no alfabéticos sin cambios. Para descifrar, simplemente restamos la llave usando el mismo cálculo circular para no salirnos del alfabeto.
 
 ---
 
