@@ -1,4 +1,18 @@
-# -- coding: utf-8 --
+# -------------------------------------------------------------
+# Nombre del programa: Caesar.py
+# Descripción: Implementación del cifrado César para el alfabeto español
+# Autor(es):
+#    - Del Razo Sánchez Diego Adrián
+#    - Guadarrama Herrera Ken Bryan
+#    - Mendoza Espinosa Ricardo
+#    - Vázquez Cárdenas Josué
+#    - Villeda Tlecuitl José Eduardo
+#    - Zavala Mendoza Luis Enrique
+# Fecha de creación: 14/08/2025
+# Última modificación: 20/08/2025
+# Materia: Criptografía
+# Versión: 1.0
+# -------------------------------------------------------------
 
 MAX_LENGTH = 1000
 
@@ -86,3 +100,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
