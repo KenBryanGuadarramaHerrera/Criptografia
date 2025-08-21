@@ -1,4 +1,19 @@
-# -- coding: utf-8 --
+# -------------------------------------------------------------
+# Nombre del programa: Vigenere+.py
+# Descripción: Implementación del cifrado César para el alfabeto español
+# Autor(es):
+#    - Del Razo Sánchez Diego Adrián
+#    - Guadarrama Herrera Ken Bryan
+#    - Mendoza Espinosa Ricardo
+#    - Vázquez Cárdenas Josué
+#    - Villeda Tlecuitl José Eduardo
+#    - Zavala Mendoza Luis Enrique
+# Fecha de creación: 19/08/2025
+# Última modificación: 20/08/2025
+# Materia: Criptografía
+# Versión: 1.0
+# -------------------------------------------------------------
+
 """
 Implementación del cifrado de Vigenère sobre el alfabeto español (27 letras, incluyendo Ñ).
 Incluimos además un ataque automático basado en el método de Kasiski y el análisis
