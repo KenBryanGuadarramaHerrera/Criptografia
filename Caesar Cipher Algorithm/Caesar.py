@@ -2,61 +2,52 @@
 
 MAX_LENGTH = 1000
 
-# Alfabeto en mayúsculas y minúsculas con Ñ y vocales acentuadas
+# Alfabeto español en mayúsculas y minúsculas (incluye la Ñ, sin acentos)
 ALFABETO_MAY = [
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ',
-    'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-    'Á', 'É', 'Í', 'Ó', 'Ú'
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+    'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 ]
 ALFABETO_MIN = [
-    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ',
-    'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-    'á', 'é', 'í', 'ó', 'ú'
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+    'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
 ]
 
-LONGITUD_ALFABETO = len(ALFABETO_MAY)  # 32
+LONGITUD_ALFABETO = len(ALFABETO_MAY)  # 27
 
 
 def codificar_caracter(c):
-    #Tomamos un caracter c y devolvemos su posicion en el alfabeto
-    #Usamos las listas ALFABETO_MAY y ALFABETO_MIN para incluir A-Z, Ñ, y vocales acentuadas
+    # Tomamos un caracter c y devolvemos su posición en el alfabeto
     if c in ALFABETO_MAY:
         return ALFABETO_MAY.index(c)
     if c in ALFABETO_MIN:
         return ALFABETO_MIN.index(c)
-    return -1 #Si no esta el caracter en el alfabeto, retornamos el error
+    return -1  # Si no está en el alfabeto, retornamos -1
 
-# pos = posicion, es_mayuscula = un tipo de letra
+
 def decodificar_posicion(pos, es_mayuscula):
     if pos < 0 or pos >= LONGITUD_ALFABETO:
-        return 'error' #Si la posicion esta fuera del rango retornamos error
+        return 'error'
     return ALFABETO_MAY[pos] if es_mayuscula else ALFABETO_MIN[pos]
 
 
 def cifrar_cesar(texto, llave):
     resultado = ""
-    #Iteramos en cada caracter del texto, obtenemos su posicion en el alfabeto
     for char in texto:
         codificacion = codificar_caracter(char)
         if codificacion != -1:
-            #Sumamos la llave (el desplazamiento n) y aplicamos modulo para mantener dentro del rango del alfabeto
             nueva_pos = (codificacion + llave) % LONGITUD_ALFABETO
             es_mayus = char in ALFABETO_MAY
-            #Usamos decodificar_posicion para obtener la letra cifrada.
             resultado += decodificar_posicion(nueva_pos, es_mayus)
         else:
-            resultado += char #Si no se encuentra el caracter en el alfabeto, lo agregamos tal cual
-                              # x ejemplo espacios, numeros, signos
+            resultado += char
     return resultado
 
 
 def descifrar_cesar(texto, llave):
-    #De forma analogica al cifrado, pero ahora restamos la llave en vez de sumarla
     resultado = ""
     for char in texto:
         codificacion = codificar_caracter(char)
         if codificacion != -1:
-            #Sumamos LONGITUD_ALFABETO para asegurar que el resultado no sea negativo
             nueva_pos = (codificacion - llave + LONGITUD_ALFABETO) % LONGITUD_ALFABETO
             es_mayus = char in ALFABETO_MAY
             resultado += decodificar_posicion(nueva_pos, es_mayus)
@@ -66,7 +57,7 @@ def descifrar_cesar(texto, llave):
 
 
 def main():
-    print(" --------- Cifrado César con Ñ y acentos --------- ")
+    print(" --------- Cifrado César  --------- ")
     print("1. Cifrar")
     print("2. Descifrar")
     opcion = input("Seleccione una opción (1 o 2): ").strip()
@@ -75,11 +66,11 @@ def main():
 
     while True:
         try:
-            llave = int(input("Ingrese el desplazamiento N (1-31): "))
-            if 1 <= llave <= 31:
+            llave = int(input("Ingrese el desplazamiento N (1-26): "))
+            if 1 <= llave <= 26:
                 break
             else:
-                print("Error: La llave debe estar entre 1 y 31.")
+                print("Error: La llave debe estar entre 1 y 26.")
         except ValueError:
             print("Error: Ingrese un número válido.")
 
