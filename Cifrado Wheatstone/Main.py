@@ -23,6 +23,7 @@ def encontrar_posicion(matriz, char):
 def preprocesar_mensaje(mensaje):
     mensaje = mensaje.lower().replace('j', 'i')  # Tratar 'j' como 'i'
     mensaje = ''.join([char for char in mensaje if char in string.ascii_lowercase])  # Mantener solo letras
+    mensaje = mensaje.replace(' ', '')  # Quitar espacios vacíos
     if len(mensaje) % 2 != 0:  # Agregar 'x' si la longitud del mensaje es impar
         mensaje += 'x'
     pares = []
@@ -40,6 +41,7 @@ def preprocesar_mensaje(mensaje):
 def cifrar_par(par, matriz):
     f1, c1 = encontrar_posicion(matriz, par[0])
     f2, c2 = encontrar_posicion(matriz, par[1])
+    
     if f1 == f2:  # Mismas fila: desplazar a la derecha
         return matriz[f1][(c1 + 1) % 5] + matriz[f2][(c2 + 1) % 5]
     elif c1 == c2:  # Mismas columna: desplazar hacia abajo
@@ -48,14 +50,15 @@ def cifrar_par(par, matriz):
         return matriz[f1][c2] + matriz[f2][c1]
 
 # Cifrar el mensaje
-def cifrar_wheatstone(clave, mensaje):
+def cifrar_playfair(clave, mensaje):
     matriz = crear_matriz(clave)
     pares = preprocesar_mensaje(mensaje)
     mensaje_cifrado = ''.join([cifrar_par(par, matriz) for par in pares])
     return mensaje_cifrado
 
-# Ejemplo de uso
-clave = "kamikaze"
-mensaje = "Hola mundo aquí estoy"
-mensaje_cifrado = cifrar_wheatstone(clave, mensaje)
-print("Mensaje Cifrado:", mensaje_cifrado)
+# Solicitar clave y mensaje de manera dinámica al usuario
+clave = input("Introduce la clave para el cifrado: ").lower()
+mensaje = input("Introduce el mensaje a cifrar: ").lower()
+
+mensaje_cifrado = cifrar_playfair(clave, mensaje)
+print("\nMensaje Cifrado:\n", mensaje_cifrado,"\n")
