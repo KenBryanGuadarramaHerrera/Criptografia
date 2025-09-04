@@ -1,3 +1,18 @@
+# -------------------------------------------------------------
+# Nombre del programa: cifradoVerman.py
+# Descripción: Implementación del cifrado César para el alfabeto español
+# Autor(es):
+#    - Del Razo Sánchez Diego Adrián
+#    - Guadarrama Herrera Ken Bryan
+#    - Mendoza Espinosa Ricardo
+#    - Vázquez Cárdenas Josué
+#    - Villeda Tlecuitl José Eduardo
+#    - Zavala Mendoza Luis Enrique
+# Fecha de creación: 28/08/2025
+# Última modificación: 28/08/2025
+# Materia: Criptografía
+# Versión: 1.0
+# -------------------------------------------------------------
 import random
 import string
 
