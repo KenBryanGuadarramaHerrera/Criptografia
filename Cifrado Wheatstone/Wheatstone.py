@@ -1,3 +1,18 @@
+# -------------------------------------------------------------
+# Nombre del programa: Wheatstone.py
+# Descripción: Implementación del cifrado César para el alfabeto español
+# Autor(es):
+#    - Del Razo Sánchez Diego Adrián
+#    - Guadarrama Herrera Ken Bryan
+#    - Mendoza Espinosa Ricardo
+#    - Vázquez Cárdenas Josué
+#    - Villeda Tlecuitl José Eduardo
+#    - Zavala Mendoza Luis Enrique
+# Fecha de creación: 01/09/2025
+# Última modificación: 01/09/2025
+# Materia: Criptografía
+# Versión: 1.0
+# -------------------------------------------------------------
 import string
 
 # Crear la matriz 5x5
