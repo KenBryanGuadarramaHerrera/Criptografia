@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Generación de Credenciales</title>
+</head>
+<body>
+    <h1>Portal de Registro y Generación de Credenciales</h1>
+    <p>
+        Haga clic en el botón para generar su par de llaves criptográficas (Pública y Privada). 
+        <strong>Su llave privada se descargará y es su responsabilidad guardarla de forma segura.</strong> 
+        La necesitará para firmar su boleta.
+    </p>
+    <form method="POST" action="{{ url_for('keygen.generate_credentials') }}">
+        <button type="submit">Generar y Descargar Llave Privada</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

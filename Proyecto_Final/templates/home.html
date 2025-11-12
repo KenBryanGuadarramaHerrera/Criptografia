@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido</title>
+</head>
+<body>
+    <h1>Bienvenido al Sistema de Votación Segura</h1>
+    <p>Por favor, inicie sesión o regístrese para continua.</p>
+
+    <hr>
+    
+    {% if not current_user.is_authenticated %}
+        <h2>Opciones de Acceso:</h2>
+        <ul>
+            <li><a href="{{ url_for('auth.login') }}">**Iniciar Sesión**</a></li>
+            <li><a href="{{ url_for('auth.register') }}">**Registrarse** (Obtener Credenciales)</a></li>
+        </ul>
+    {% else %}
+        <p>
+            Ya has iniciado sesión como **{{ current_user.username }}**. 
+            {% if current_user.is_admin() %}
+                <a href="{{ url_for('admin.dashboard') }}">Ir al Panel de Administración</a>
+            {% else %}
+                <a href="{{ url_for('voting.active_surveys') }}">Ir a la Lista de Encuestas</a>
+            {% endif %}
+        </p>
+        <p><a href="{{ url_for('auth.logout') }}">Cerrar Sesión</a></p>
+    {% endif %}
+    
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro Exitoso</title>
+</head>
+<body>
+    <h1>✅ Registro Exitoso</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p style="color: {{ 'green' if category == 'success' else 'red' }};">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <p>Sus llaves se crearon de forma correcta. Ahora puede descargar sus credenciales.</p>
+    
+    <hr>
+    
+    <h2>1. Descargue sus Credenciales</h2>
+    <p>
+        **ATENCIÓN:** Descargue y guarde el archivo ZIP de forma segura. Contiene su Llave Privada, necesaria para votar. Si no lo descarga ahora, deberá registrarse de nuevo.
+    </p>
+    
+    <p>
+        <a href="{{ url_for('auth.download_credentials') }}" style="padding: 10px; background-color: #007bff; color: white; text-decoration: none;">
+            DESCARGAR CREDENCIALES (ZIP)
+        </a>
+    </p>
+
+    <hr>
+    
+    <h2>2. Iniciar Sesión</h2>
+    <p>
+        <a href="{{ url_for('auth.login') }}" style="padding: 10px; background-color: #4CAF50; color: white; text-decoration: none;">
+            IR AL LOGIN
+        </a>
+    </p>
+</body>
+</html>

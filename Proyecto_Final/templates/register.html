@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuario</title>
+</head>
+<body>
+    <h1>Registro de Usuario</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li style="color: {{ 'green' if category == 'success' else 'red' }};">
+                    {{ message }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('auth.register') }}">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <p><strong>IMPORTANTE:</strong> Al terminar tu registro se generarán tu par de llaves 
+            (Llave Pública y Llave Privada). 
+            Si ya tiene credenciales, <a href="{{ url_for('auth.login') }}">acceda al Login</a>. 
+        </p>
+        
+        <button type="submit">Registrar y Generar Credenciales</button>
+    </form>
+    <p>¿Ya tienes una cuenta? <a href="{{ url_for('auth.login') }}">Iniciar Sesión</a>.</p>
+</body>
+</html>

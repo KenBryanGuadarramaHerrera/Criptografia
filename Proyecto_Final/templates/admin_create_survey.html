@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Encuesta</title>
+    <style>
+        .option-field { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Crear Nueva Encuesta</h1>
+
+    <p><a href="{{ url_for('admin.dashboard') }}">← Volver al Panel</a></p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p style="color: {{ 'green' if category == 'success' else 'red' }};">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('admin.create_survey') }}">
+        <label for="title">**Título de la Encuesta:**</label><br>
+        <input type="text" id="title" name="title" style="width: 50%;" required><br><br>
+
+        <h2>Opciones de Voto (Mínimo 2)</h2>
+        <div id="options-container">
+            <div class="option-field">
+                <input type="text" name="option_text[]" placeholder="Opción 1" required>
+            </div>
+            <div class="option-field">
+                <input type="text" name="option_text[]" placeholder="Opción 2" required>
+            </div>
+        </div>
+
+        <button type="button" onclick="addOption()">+ Añadir Opción</button><br><br>
+
+        <button type="submit" style="padding: 10px; background-color: #4CAF50; color: white; border: none;">Guardar Encuesta</button>
+    </form>
+
+    <script>
+        // Función JavaScript para añadir campos de opción dinámicamente
+        let optionCount = 3;
+        function addOption() {
+            const container = document.getElementById('options-container');
+            const newDiv = document.createElement('div');
+            newDiv.className = 'option-field';
+            newDiv.innerHTML = `
+                <input type="text" name="option_text[]" placeholder="Opción ${optionCount}" required>
+                <button type="button" onclick="removeOption(this)">Eliminar</button>
+            `;
+            container.appendChild(newDiv);
+            optionCount++;
+        }
+        
+        function removeOption(button) {
+            const container = document.getElementById('options-container');
+            // Evitar eliminar si quedan menos de 2 opciones
+            if (container.children.length > 2) {
+                container.removeChild(button.parentNode);
+            } else {
+                alert('Debe haber al menos dos opciones de voto.');
+            }
+        }
+    </script>
+</body>
+</html>

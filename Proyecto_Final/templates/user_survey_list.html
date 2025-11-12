@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuestas Activas</title>
+</head>
+<body>
+    <h1>🗳️ Encuestas de Votación Activas</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p style="color: {{ 'green' if category == 'success' else 'red' }};">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if surveys_with_status %}
+        <p>Selecciona una encuesta para emitir tu voto:</p>
+        
+        <table border="1" style="width: 80%; border-collapse: collapse; margin-top: 15px;">
+            <thead>
+                <tr>
+                    <th>Título de la Encuesta</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in surveys_with_status %}
+                <tr>
+                    <td>**{{ item.survey.title }}**</td>
+                    <td>
+                        {% if item.has_voted %}
+                            <span style="color: green; font-weight: bold;">VOTADO</span>
+                        {% else %}
+                            <span style="color: blue;">Pendiente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.has_voted %}
+                            Voto Registrado
+                        {% else %}
+                            <a href="{{ url_for('voting.show_vote', survey_id=item.survey.id) }}" 
+                               style="color: #007bff; text-decoration: none;">
+                               Ir a Votar
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Actualmente no hay encuestas activas disponibles.</p>
+    {% endif %}
+
+    <p style="margin-top: 30px;"><a href="{{ url_for('auth.logout') }}">Cerrar Sesión</a></p>
+</body>
+</html>

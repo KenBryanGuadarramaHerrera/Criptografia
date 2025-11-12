@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados de {{ survey.title }}</title>
+</head>
+<body>
+    <h1>Resultados de Votación: **{{ survey.title }}**</h1>
+    
+    <p><a href="{{ url_for('admin.dashboard') }}">← Volver al Panel</a></p>
+
+    {% if total_votes == 0 %}
+        <p>Aún no hay votos registrados para esta encuesta.</p>
+    {% else %}
+        <h2>Total de Votos Emitidos: **{{ total_votes }}**</h2>
+        
+        <table border="1" style="width: 80%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Opción</th>
+                    <th>Votos</th>
+                    <th>Porcentaje</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in stats %}
+                <tr>
+                    <td>**{{ stat.text }}**</td>
+                    <td>{{ stat.count }}</td>
+                    <td>{{ stat.percentage }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <p style="margin-top: 20px; color: green;">*NOTA: Estos resultados se basan en votos verificados criptográficamente.*</p>
+    {% endif %}
+
+</body>
+</html>
