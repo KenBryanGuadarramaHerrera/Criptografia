@@ -2,14 +2,6 @@
 
 Este proyecto implementa una plataforma de votación electrónica segura, verificable y anónima utilizando **Python (Flask)**. El núcleo del sistema se basa en el protocolo criptográfico de **Firma Ciega de Chaum**, garantizando que la identidad del votante permanezca matemáticamente desvinculada de su voto (Unlinkability), mientras se asegura la elegibilidad y la integridad del sufragio.
 
-## 📋 Tabla de Contenidos
-- [Características Principales](#-características-principales)
-- [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
-- [Fundamentos Técnicos](#-fundamentos-técnicos)
-- [Requisitos Previos](#-requisitos-previos)
-- [Instalación y Ejecución](#-instalación-y-ejecución)
-- [Flujo de Uso](#-flujo-de-uso)
-- [Autores](#-autores)
 
 ---
 
