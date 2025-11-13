@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Portal de Autenticación</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo-area">
+                <img src="https://cdn-icons-png.flaticon.com/512/2492/2492646.png" alt="Security Shield">
+                <div class="logo-text">
+                    <h1>Sistema de Votación Segura</h1>
+                    <span>Protocolo RSA de Firma Ciega</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Registro de Votante</h2>
+        <p style="text-align:center; color:#666; margin-bottom:25px; font-size:0.95rem;">
+            Ingrese sus datos para generar su identidad criptográfica digital.
+        </p>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert">{{ messages[0] }}</div>
+          {% endif %}
+        {% endwith %}
+
+        <form action="/register" method="POST">
+            <label>Nombre de Usuario (ID Académico)</label>
+            <input type="text" name="username" placeholder="Ej. A01234567" required>
+            
+            <label>Contraseña</label>
+            <input type="password" name="password" placeholder="••••••••" required>
+            
+            <button type="submit">Registrarse y Obtener Llaves</button>
+        </form>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
+        
+        <a href="/voting_booth" class="btn btn-secondary">
+            ¿Ya tiene credenciales? Ir a Votar
+        </a>
+    </div>
+
+    <div class="footer-links">
+        <a href="/how-it-works">Documentación Técnica</a>
+        <span>|</span>
+        <a href="/credits">Créditos del Equipo</a>
+    </div>
+
+</body>
+</html>

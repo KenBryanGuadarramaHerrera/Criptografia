@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación Técnica</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .doc-section { margin-bottom: 30px; }
+        .doc-title { 
+            color: var(--secondary-color); 
+            font-weight: bold; 
+            border-left: 4px solid var(--accent-color); 
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+        .math-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            text-align: center;
+            margin: 15px 0;
+            color: #444;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--primary-color);
+            font-size: 0.9em;
+        }
+        ul { padding-left: 20px; color: #555; }
+        li { margin-bottom: 8px; }
+        p { color: #666; line-height: 1.6; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo-area">
+                <img src="https://cdn-icons-png.flaticon.com/512/2492/2492646.png" alt="Shield">
+                <div class="logo-text">
+                    <h1>Documentación</h1>
+                    <span>Fundamentos del Protocolo</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 800px;">
+        <h2>¿Cómo es que funciona este sistema?</h2>
+
+        <div class="doc-section">
+            <div class="doc-title">1. Stack Tecnológico e Infraestructura</div>
+            <p>El sistema ha sido construido utilizando un enfoque modular, separando la lógica criptográfica de la interfaz web:</p>
+            <ul>
+                <li><strong>Backend:</strong> Python 3 + Flask (Manejo de rutas y sesiones).</li>
+                <li><strong>Base de Datos:</strong> SQLAlchemy + SQLite (Persistencia de usuarios y votos).</li>
+                <li><strong>Criptografía:</strong> PyCryptodome (Primitivas RSA) + Werkzeug Security (Hashing de contraseñas).</li>
+                <li><strong>Frontend:</strong> HTML5, CSS3 (Diseño Institucional) y Chart.js (Visualización de datos).</li>
+            </ul>
+        </div>
+
+        <div class="doc-section">
+            <div class="doc-title">2. Seguridad y Gestión de Credenciales</div>
+            <p>Se implementa un esquema de <strong>Defensa en Profundidad</strong> para evitar suplantación de identidad:</p>
+            <ul>
+                <li><strong>Almacenamiento Seguro:</strong> Las contraseñas no se guardan en texto plano. Se utiliza el algoritmo <code>PBKDF2-SHA256</code> para protegerlas contra ataques de fuerza bruta.</li>
+                <li><strong>Autenticación de Doble Factor (2FA Lógico):</strong> Para votar, el usuario debe demostrar <em>Conocimiento</em> (su contraseña) y <em>Posesión</em> (su archivo de Llave Privada <code>.key</code>). El sistema valida matemáticamente que el archivo corresponda al usuario registrado.</li>
+            </ul>
+        </div>
+
+        <div class="doc-section">
+            <div class="doc-title">3. Criptografía Base (RSA + SHAKE128)</div>
+            <p>
+                Se utilizan pares de llaves RSA de 2048 bits. El contenido del voto (ej. "Partido A") nunca se firma directamente; primero se pasa por la función hash <code>SHAKE128</code> (familia SHA-3) para garantizar una longitud fija e integridad criptográfica.
+            </p>
+        </div>
+
+        <div class="doc-section">
+            <div class="doc-title">4. Protocolo de Firma Ciega (Blind Signature)</div>
+            <p>Este es el núcleo de la privacidad. Permite a la autoridad certificar un voto sin conocer su contenido. El proceso matemático implementado es:</p>
+            
+            <div style="background:#fff; border:1px solid #eee; padding:15px; border-radius:8px;">
+                <strong>Paso A: Cegado (Cliente)</strong>
+                <p style="font-size:0.9rem; color:#666;">El sistema genera un factor aleatorio seguro <em>r</em> y oculta el mensaje <em>m</em>.</p>
+                <div class="math-box">m' = (Hash(voto) · r<sup>e</sup>) mod n</div>
+
+                <strong>Paso B: Firma (Servidor)</strong>
+                <p style="font-size:0.9rem; color:#666;">La autoridad firma el mensaje cegado usando su llave privada <em>d</em>.</p>
+                <div class="math-box">s' = (m')<sup>d</sup> mod n</div>
+
+                <strong>Paso C: Descegado (Cliente)</strong>
+                <p style="font-size:0.9rem; color:#666;">El sistema elimina el factor <em>r</em> para obtener la firma válida del voto original.</p>
+                <div class="math-box">s = s' · r<sup>-1</sup> mod n</div>
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <div class="doc-title">5. Arquitectura de Datos y Anonimato</div>
+            <p>Para garantizar que sea imposible rastrear un voto hasta su emisor, se utiliza una separación estricta de tablas:</p>
+            <ul>
+                <li><strong>Tabla Usuarios:</strong> Guarda credenciales y la bandera <code>has_voted</code>. No tiene relación (Foreign Key) con los votos.</li>
+                <li><strong>Tabla Votos:</strong> Guarda solo el contenido y la firma.</li>
+            </ul>
+            <p>Adicionalmente, la base de datos aplica una restricción <code>UNIQUE</code> sobre las firmas digitales para prevenir ataques de repetición (Replay Attacks).</p>
+        </div>
+
+        <div class="doc-section">
+            <div class="doc-title">6. Verificabilidad Pública</div>
+            <p>
+                Al finalizar el voto, el usuario recibe un recibo criptográfico (la firma RSA final). Este hash permite auditar el sistema mediante el <strong>Buscador de Integridad</strong> en la tabla de resultados, probando matemáticamente que el voto fue contabilizado sin alteraciones:
+            </p>
+            <div class="math-box">s<sup>e</sup> mod n == Hash(Voto)</div>
+        </div>
+
+        <div style="text-align:center; margin-top:40px;">
+            <a href="/" class="btn">Entendido, Regresar al Inicio</a>
+        </div>
+    </div>
+</body>
+</html>

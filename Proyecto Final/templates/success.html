@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Voto Registrado</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Estilo específico para el recibo */
+        .receipt-box {
+            background-color: #fafafa;
+            border: 2px dashed #ccc;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #555;
+            word-break: break-all;
+            border-radius: 8px;
+            text-align: left;
+        }
+        .success-icon {
+            width: 60px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 6px rgba(46, 125, 50, 0.3));
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo-area">
+                <img src="https://cdn-icons-png.flaticon.com/512/2492/2492646.png" alt="Shield">
+                <div class="logo-text">
+                    <h1>Confirmación de Voto</h1>
+                    <span>Operación Exitosa</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="text-align: center;">
+        <img src="https://cdn-icons-png.flaticon.com/512/148/148767.png" alt="Success" class="success-icon">
+        
+        <h2 style="color: var(--success);">¡Su voto ha sido procesado!</h2>
+        <p style="color: #666;">
+            La identidad fue validada correctamente mediante su llave privada.<br>
+            El contenido del voto ha sido firmado y anonimizado.
+        </p>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
+        
+        <h3 style="font-size: 1rem; color: var(--primary-color);">Comprobante Digital (Hash RSA)</h3>
+        <p style="font-size: 0.85rem; color: #888;">Conserve este código para auditar su voto en la tabla pública.</p>
+        
+        <div class="receipt-box">
+            {{ signature }}
+        </div>
+
+        <a href="/results" class="btn">Verificar en el Tablero Público</a>
+        <a href="/" class="btn btn-secondary" style="margin-top: 10px;">Salir / Volver al Inicio</a>
+    </div>
+</body>
+</html>

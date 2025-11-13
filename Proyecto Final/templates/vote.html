@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cabina de Votación</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo-area">
+                <img src="https://cdn-icons-png.flaticon.com/512/2492/2492646.png" alt="Shield">
+                <div class="logo-text">
+                    <h1>Urna Digital</h1>
+                    <span>Sesión Segura y Encriptada</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Emisión de Voto</h2>
+        <p style="text-align:center; font-size:0.9rem; color:#666; background:#f9f9f9; padding:10px; border-radius:5px;">
+            <strong>Privacidad Garantizada:</strong> Su identidad será verificada, pero su elección permanecerá anónima gracias a la firma ciega.
+        </p>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert">{{ messages[0] }}</div>
+          {% endif %}
+        {% endwith %}
+
+        <form action="/voting_booth" method="POST" enctype="multipart/form-data">
+            <label>1. Usuario</label>
+            <input type="text" name="username" required>
+            
+            <label>2. Contraseña</label>
+            <input type="password" name="password" required>
+
+            <label>3. Archivo de Llave Privada (.key)</label>
+            <div style="font-size:0.85rem; color:#888; margin-bottom:5px;">Suba el archivo descargado durante su registro.</div>
+            <input type="file" name="key_file" required accept=".key,.pem" style="background:white;">
+
+            <div style="margin: 25px 0; border-top: 1px dashed #ccc;"></div>
+
+            <label>4. Seleccione su Candidato</label>
+            <select name="vote" style="font-size:1.1rem; padding:15px;">
+                <option value="Partido Python">Partido Python</option>
+                <option value="Alianza Java">Alianza Java</option>
+                <option value="Frente C++">Frente C++</option>
+            </select>
+
+            <button type="submit">Firmar y Depositar Voto</button>
+        </form>
+        
+        <div style="text-align:center; margin-top:20px;">
+            <a href="/results" style="color:var(--secondary-color); font-size:0.9rem; text-decoration:none;">Ver Resultados Públicos &rarr;</a>
+        </div>
+    </div>
+</body>
+</html>

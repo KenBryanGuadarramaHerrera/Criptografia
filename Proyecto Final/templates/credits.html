@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Créditos del Desarrollo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .team-list {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+        .team-list li {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            color: var(--primary-color);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        .team-list li:last-child { border-bottom: none; }
+        .team-list li::before {
+            content: "•";
+            color: var(--secondary-color); /* Dorado o Azul */
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        .role-tag {
+            font-size: 0.75rem;
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo-area">
+                <img src="https://cdn-icons-png.flaticon.com/512/2492/2492646.png" alt="Shield">
+                <div class="logo-text">
+                    <h1>Créditos</h1>
+                    <span>Equipo de Ingeniería</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Desarrolladores del Sistema</h2>
+        <p style="text-align:center; color:#666;">
+            Proyecto de Votación Electrónica con Criptografía Aplicada.
+        </p>
+
+        <ul class="team-list">
+            <li>Del Razo Sánchez Diego Adrián <span class="role-tag">Dev</span></li>
+            <li>Guadarrama Herrera Ken Bryan <span class="role-tag">Dev</span></li>
+            <li>Mendoza Espinosa Ricardo <span class="role-tag">Dev</span></li>
+            <li>Vázquez Cárdenas Josué <span class="role-tag">Dev</span></li>
+            <li>Villeda Tlecuitl José Eduardo <span class="role-tag">Dev</span></li>
+            <li>Zavala Mendoza Luis Enrique <span class="role-tag">Dev</span></li>
+        </ul>
+
+        <a href="/" class="btn btn-secondary">← Regresar al Inicio</a>
+    </div>
+</body>
+</html>

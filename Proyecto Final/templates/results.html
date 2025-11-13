@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados Electorales</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background-color: #f4f6f9; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
+        
+        /* Estilos de la Tabla */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+        th, td { border-bottom: 1px solid #eee; padding: 12px; text-align: left; }
+        th { background-color: #34495e; color: white; font-weight: 600; }
+        tr:hover { background-color: #f8f9fa; }
+        
+        .sig { font-family: 'Courier New', Courier, monospace; font-size: 0.85em; color: #666; word-break: break-all; }
+        .chart-container { position: relative; height:40vh; width:100%; max-width: 700px; margin: 0 auto 40px auto; }
+        
+        a { text-decoration: none; color: #3498db; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+
+        /* Estilos del Buscador */
+        .search-box {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #e8f6f3;
+            border-radius: 8px;
+            border: 1px solid #d1f2eb;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-family: monospace;
+        }
+        .search-input:focus {
+            border-color: #1abc9c;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/">← Volver al inicio</a>
+        <h2>Tablero de Resultados y Auditoría</h2>
+
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+
+        <div class="search-box">
+            <h3 style="margin-top:0; color:#16a085;">🔍 Validador de Voto</h3>
+            <p style="font-size:0.9em; color:#555;">Pega aquí tu <b>Recibo de Votación (Firma)</b> para verificar que tu voto se encuentra en la urna digital:</p>
+            <input type="text" id="searchInput" onkeyup="filterTable()" class="search-input" placeholder="Ej: 4829103...">
+            <p id="search-status" style="font-size: 0.8em; color: #888; margin-top: 5px;">Mostrando todos los votos.</p>
+        </div>
+
+        <h3>Registro Inmutable de Votos</h3>
+        <table id="votesTable">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Opción Elegida</th>
+                    <th>Firma Digital (Prueba de Integridad)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vote in votes %}
+                <tr>
+                    <td><b>{{ vote.vote_content }}</b></td>
+                    <td class="sig">{{ vote.signature }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // --- PARTE 1: DIBUJAR LA GRÁFICA ---
+        const labels = {{ labels | tojson }};
+        const data = {{ values | tojson }};
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Conteo de Votos',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.7)',
+                        'rgba(241, 196, 15, 0.7)',
+                        'rgba(46, 204, 113, 0.7)',
+                        'rgba(231, 76, 60, 0.7)',
+                        'rgba(155, 89, 182, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(241, 196, 15, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(231, 76, 60, 1)',
+                        'rgba(155, 89, 182, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
+            }
+        });
+
+        // --- PARTE 2: FUNCIONALIDAD DEL BUSCADOR ---
+        function filterTable() {
+            // Obtener lo que escribió el usuario
+            var input = document.getElementById("searchInput");
+            var filter = input.value.toUpperCase().trim(); // Convertir a mayúsculas para buscar fácil
+            var table = document.getElementById("votesTable");
+            var tr = table.getElementsByTagName("tr");
+            var foundCount = 0;
+
+            // Recorrer todas las filas (empezando en 1 para saltar el encabezado)
+            for (var i = 1; i < tr.length; i++) {
+                var tdFirma = tr[i].getElementsByTagName("td")[1]; // Columna de Firma
+                if (tdFirma) {
+                    var txtValue = tdFirma.textContent || tdFirma.innerText;
+                    // Checar si el texto de la firma contiene lo que buscamos
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = ""; // Mostrar
+                        tr[i].style.backgroundColor = "#d5f5e3"; // Resaltar en verde suave
+                        foundCount++;
+                    } else {
+                        tr[i].style.display = "none"; // Ocultar
+                        tr[i].style.backgroundColor = ""; // Quitar color
+                    }
+                }
+            }
+            
+            // Actualizar mensaje de estado
+            var status = document.getElementById("search-status");
+            if (filter === "") {
+                status.textContent = "Mostrando todos los votos.";
+            } else if (foundCount > 0) {
+                status.textContent = "¡Firma encontrada! Voto verificado.";
+                status.style.color = "green";
+            } else {
+                status.textContent = "Firma no encontrada en la urna.";
+                status.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
