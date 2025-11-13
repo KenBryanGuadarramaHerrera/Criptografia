@@ -18,7 +18,7 @@ Este proyecto implementa una plataforma de votación electrónica segura, verifi
 
 El sistema sigue una arquitectura modular basada en **MVC (Modelo-Vista-Controlador)**. A continuación se describe la estructura de carpetas y archivos:
 
-
+```text
 /sistema_votacion
 │
 ├── app.py                 # [CONTROLADOR] El cerebro del backend. Gestiona rutas,
@@ -44,7 +44,7 @@ El sistema sigue una arquitectura modular basada en **MVC (Modelo-Vista-Controla
     ├── success.html       # Recibo digital de voto.
     ├── credits.html       # Créditos del equipo.
     └── how_it_works.html  # Documentación técnica integrada.
-
+```
 ---
 
 ### Desde Relación de Módulos hasta el final
@@ -89,12 +89,12 @@ Descarga el código fuente o clona este repositorio.
 Navega a la carpeta del proyecto y ejecuta:
 ```bash
 pip install -r requirements.txt
-
+```
 ### 3. Ejecutar el Servidor
 Inicia la aplicación Flask:
 ```bash
 python app.py
-
+```
 ### 4. Acceder
 Abre tu navegador web e ingresa a:
 `http://127.0.0.1:5000`
