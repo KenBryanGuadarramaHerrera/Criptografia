@@ -22,7 +22,7 @@ Este proyecto implementa una plataforma de votación electrónica segura, verifi
 
 ---
 
-## 📂 Arquitectura del Proyecto
+##  Arquitectura del Proyecto
 
 El sistema sigue una arquitectura modular basada en **MVC (Modelo-Vista-Controlador)**. A continuación se describe la estructura de carpetas y archivos:
 
