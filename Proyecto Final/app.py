@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, send_file, flash
 from models import db, User, Vote
 from crypto_utils import CryptoManager
-from collections import Counter  # <--- Agrega esto junto a los otros imports
+from collections import Counter  
 from werkzeug.security import generate_password_hash, check_password_hash
-from Crypto.PublicKey import RSA # <--- AGREGAR ESTO
+from Crypto.PublicKey import RSA 
 import io
 
 
@@ -104,7 +104,7 @@ def voting_booth():
 
         # --- SI LLEGA AQUÍ, EL USUARIO ES QUIEN DICE SER (TIENE LA LLAVE) ---
 
-        # LOGICA DE CEGADO (Igual que antes)
+        # LOGICA DE CEGADO 
         n, e = crypto.get_admin_pub_params()
         blinded_val, r = crypto.blind_message(vote_content, n, e)
 
@@ -148,4 +148,5 @@ def how_it_works():
     return render_template('how_it_works.html')
 
 if __name__ == '__main__':
+
     app.run(debug=True, port=5000)
